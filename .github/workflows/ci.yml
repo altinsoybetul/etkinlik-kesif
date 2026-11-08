@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  analyze-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Bağımlılıkları yükle
+        run: flutter pub get
+      - name: Statik analiz
+        run: flutter analyze --no-fatal-infos
+      - name: Testler
+        run: flutter test
